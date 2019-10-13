@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>init system rosetta stone</title>
+		<link rel="stylesheet" href="style.css" type="text/css" media="all" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="grid-block">
+				<h1>init system rosetta stone</h1>
+				<p>The following table works as a Rosetta Stone to manage services depending on the
+					init system<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup> present in your distribution.</p>
+				<p>Substitute <code>$service</code> for the <strong>name of the service</strong> you want to manipulate.</p>
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th>SysV init<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup></th>
+							<th>runit</th>
+							<th>systemd</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>List available services</td>
+							<td><code>ls /etc/init.d/</code></td>
+							<td><code>ls /etc/sv</code></td>
+							<td><code>systemctl list-unit-files</code></td>
+						</tr>
+						<tr>
+							<td>List running services</td>
+							<td><code>service --status-all</code></td>
+							<td><code>ls /var/service</code></td>
+							<td><code>systemctl list-units</code></td>
+						</tr>
+						<tr>
+							<td>Start service</td>
+							<td><code>service $service start</code><sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup></td>
+							<td><code>sv up $service</code></td>
+							<td><code>systemctl start $service</code></td>
+						</tr>
+						<tr>
+							<td>Stop service</td>
+							<td><code>service $service stop</code><sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup></td>
+							<td><code>sv down $service</code></td>
+							<td><code>systemctl stop $service</code></td>
+						</tr>
+						<tr>
+							<td>Restart service</td>
+							<td><code>service $service restart</code><sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup></td>
+							<td><code>sv restart $service</code></td>
+							<td><code>systemctl restart $service</code></td>
+						</tr>
+						<tr>
+							<td>Get status of service</td>
+							<td><code>service $service status</code><sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup></td>
+							<td><code>sv status $service</code></td>
+							<td><code>systemctl status $service</code></td>
+						</tr>
+						<tr>
+							<td>Enable service</td>
+							<td><code>update-rc.d $service defaults</code><sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup></td>
+							<td><code>ln -s /etc/sv/$service /var/service</code></td>
+							<td><code>systemctl enable $service</code></td>
+						</tr>
+						<tr>
+							<td>Disable service</td>
+							<td><code>update-rc.d $service remove</code><sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup></td>
+							<td><code>rm /var/service/$service</code></td>
+							<td><code>systemctl disable $service</code></td>
+						</tr>
+					</tbody>
+				</table>
+				<p>Please consider using a GNU/Linux distribution that does not use <code>systemd</code>, like
+					<a href="https://www.devuan.org/">Devuan</a> or <a href="https://voidlinux.org/">Void Linux</a>. Read
+					why: <a href="https://www.devuan.org/os/init-freedom">init freedom</a>.</p>
+				<section class="footnotes">
+					<ol>
+						<li id="fn1">
+							<p>There are a lot of other init systems, but here are the ones I've used. <a href="#fnref1" class="footnote-backref">↩</a></p>
+						</li>
+						<li id="fn2">
+							<p>OpenRC builds upon SysV init, so what works for SysV init almost always
+								works for OpenRC. Alpine Linux has a quick-start guide for OpenRC,
+								<a href="https://wiki.alpinelinux.org/wiki/Alpine_Linux_Init_System">here</a>. <a href="#fnref2" class="footnote-backref">↩</a></p>
+						</li>
+						<li id="fn3">
+							<p>Or manually, with: <code>/etc/init.d/$service {start|stop|restart|status}</code>. <a href="#fnref3" class="footnote-backref">↩</a></p>
+						</li>
+						<li id="fn4">
+							<p>If you don't have <code>update-rc.d</code> you have to manually add/remove the
+								symlinks to the service, search the internet for a deeper explanation. <a href="#fnref4" class="footnote-backref">↩</a></p>
+						</li>
+					</ol>
+				</section>
+			</div>
+		</div>
+	</body>
+</html>
